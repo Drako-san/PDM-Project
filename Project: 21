@@ -1,5 +1,4 @@
 import random
-import os
  
 # The Card class definition
 class Card:
@@ -11,11 +10,6 @@ class Card:
         # Score Value for the Card like 10 for King
         self.card_value = card_value
  
-# Clear the terminal
-def clear():
-    os.system("clear")
- 
-
 # Function for a single game of 21
 def blackjack_game(deck):
  
@@ -26,8 +20,6 @@ def blackjack_game(deck):
     # Scores for both opponent and player
     player_score = 0
     opponent_score = 0
- 
-    clear()
  
     # Initial dealing for player and opponent
     while len(player_cards) < 2:
@@ -83,8 +75,6 @@ def blackjack_game(deck):
         print("PLAYER WINS!!!!")
         quit()
  
-    clear()
- 
     # Print opponent and player cards
     (opponent_cards[:-1], True)
     print("OPPONENT NUMBERS = ", opponent_score - opponent_cards[-1].card_value)
@@ -100,7 +90,6 @@ def blackjack_game(deck):
  
         # Sanity checks for player's choice
         if len(choice) != 1 or (choice.upper() != 'R' and choice.upper() != 'S'):
-            clear()
             print("Wrong choice!! Try Again")
  
         # If player decides to RAISE
@@ -122,9 +111,7 @@ def blackjack_game(deck):
                     player_score -= 10
                     c += 1
                 else:
-                    c += 1 
- 
-            clear()     
+                    c += 1    
  
             # Print player and opponent cards
             (opponent_cards[:-1], True)
@@ -138,9 +125,6 @@ def blackjack_game(deck):
         # If player decides to Stand
         if choice.upper() == 'S':
             break
- 
- 
-    clear() 
  
     # Print player and opponent cards
     (player_cards, False)
@@ -166,7 +150,6 @@ def blackjack_game(deck):
  
     # Managing the opponent moves
     while opponent_score < 17:
-        clear() 
  
         print("OPPONENT DECIDES TO HIT.....")
  
