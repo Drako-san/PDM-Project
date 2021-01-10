@@ -1,0 +1,242 @@
+import random
+import os
+ 
+# The Card class definition
+class Card:
+    def __init__(self, value, card_value):
+         
+        # Representing Value of the Card like A for Ace, K for King
+        self.value = value
+ 
+        # Score Value for the Card like 10 for King
+        self.card_value = card_value
+ 
+# Clear the terminal
+def clear():
+    os.system("clear")
+ 
+
+# Function for a single game of 21
+def blackjack_game(deck):
+ 
+    # Cards for both opponent and player
+    player_cards = []
+    opponent_cards = []
+ 
+    # Scores for both opponent and player
+    player_score = 0
+    opponent_score = 0
+ 
+    clear()
+ 
+    # Initial dealing for player and opponent
+    while len(player_cards) < 2:
+ 
+        # Randomly dealing a card for player
+        player_card = random.choice(deck)
+        player_cards.append(player_card)
+        deck.remove(player_card)
+ 
+        # Updating the player score
+        player_score += player_card.card_value
+ 
+        # In case both the cards are Ace, make the first ace value as 1 
+        if len(player_cards) == 2:
+            if player_cards[0].card_value == 11 and player_cards[1].card_value == 11:
+                player_cards[0].card_value = 1
+                player_score -= 10
+ 
+        # Print player cards and score      
+        (player_cards, False)
+        print("PLAYER NUMBERS = ", player_score)
+ 
+        input()
+ 
+        # Randomly dealing a card for opponent
+        opponent_card = random.choice(deck)
+        opponent_cards.append(opponent_card)
+        deck.remove(opponent_card)
+ 
+        # Updating the opponent score
+        opponent_score += opponent_card.card_value
+ 
+        # Print opponent cards and score, keeping in mind to hide the second card and score
+        if len(opponent_cards) == 1:
+            (opponent_cards, False)
+            print("OPPONENT NUMBERS = ", opponent_score)
+        else:
+            (opponent_cards[:-1], True)    
+            print("OPPONENT NUMBERS = ", opponent_score - opponent_cards[-1].card_value)
+ 
+ 
+        # In case both the cards are Ace, make the second ace value as 1 
+        if len(opponent_cards) == 2:
+            if opponent_cards[0].card_value == 11 and opponent_cards[1].card_value == 11:
+                opponent_cards[0].card_value = 1
+                opponent_score -= 10
+ 
+        input()
+ 
+    # Player gets 21  
+    if player_score == 21:
+        print("PLAYER HAS 21!!!!")
+        print("PLAYER WINS!!!!")
+        quit()
+ 
+    clear()
+ 
+    # Print opponent and player cards
+    (opponent_cards[:-1], True)
+    print("OPPONENT NUMBERS = ", opponent_score - opponent_cards[-1].card_value)
+ 
+    print() 
+ 
+    (player_cards, False)
+    print("PLAYER NUMBERS = ", player_score)
+ 
+    # Managing the player moves
+    while player_score < 21:
+        choice = input("Enter R to Raise or S to Stand: ")
+ 
+        # Sanity checks for player's choice
+        if len(choice) != 1 or (choice.upper() != 'R' and choice.upper() != 'S'):
+            clear()
+            print("Wrong choice!! Try Again")
+ 
+        # If player decides to RAISE
+        if choice.upper() == 'R':
+ 
+            # Dealing a new card
+            player_card = random.choice(deck)
+            player_cards.append(player_card)
+            deck.remove(player_card)
+ 
+            # Updating player score
+            player_score += player_card.card_value
+ 
+            # Updating player score in case player's card have ace in them
+            c = 0
+            while player_score > 21 and c < len(player_cards):
+                if player_cards[0].card_value == 11:
+                    player_cards.card_value = 1
+                    player_score -= 10
+                    c += 1
+                else:
+                    c += 1 
+ 
+            clear()     
+ 
+            # Print player and opponent cards
+            (opponent_cards[:-1], True)
+            print("OPPONENT NUMBERS = ", opponent_score - opponent_cards[-1].card_value)
+ 
+            print()
+ 
+            (player_cards, False)
+            print("PLAYER NUMBERS = ", player_score)
+             
+        # If player decides to Stand
+        if choice.upper() == 'S':
+            break
+ 
+ 
+    clear() 
+ 
+    # Print player and opponent cards
+    (player_cards, False)
+    print("PLAYER NUMBERS = ", player_score)
+ 
+    print()
+    print("OPPONENT IS REVEALING THE NEXT NUMBER....")
+ 
+    (opponent_cards, False)
+    print("OPPONENT NUMBERS = ", opponent_score)
+ 
+    # Check if player 21
+    if player_score == 21:
+        print("PLAYER HAS 21!!!")
+        quit()
+ 
+    # Check if player busts
+    if player_score > 21:
+        print("PLAYER BUSTED!!! GAME OVER!!!")
+        quit()
+ 
+    input() 
+ 
+    # Managing the opponent moves
+    while opponent_score < 17:
+        clear() 
+ 
+        print("OPPONENT DECIDES TO HIT.....")
+ 
+        # Dealing card for opponent
+        opponent_card = random.choice(deck)
+        opponent_cards.append(opponent_card)
+        deck.remove(opponent_card)
+ 
+        # Updating the opponent's score
+        opponent_score += opponent_card.card_value
+ 
+        # Updating player score in case player's card have ace in them
+        c = 0
+        while opponent_score > 21 and c < len(opponent_cards):
+            if opponent_cards[0].card_value == 11:
+                opponent_cards.card_value = 1
+                opponent_score -= 10
+                c += 1
+            else:
+                c += 1
+ 
+        # print player and opponent cards
+        (player_cards, False)
+        print("PLAYER NUMBERS = ", player_score)
+ 
+        print()
+ 
+        
+        (opponent_cards, False)
+        print("OPPONENT NUMBERS = ", opponent_score)      
+ 
+        input()
+ 
+    # Opponent busts
+    if opponent_score > 21:        
+        print("OPPONENT BUSTED!!! YOU WIN!!!") 
+        quit()  
+ 
+    # Opponent gets a blackjack
+    if opponent_score == 21:
+        print("OPPONENT HAS 21!!! PLAYER LOSES")
+        quit()
+ 
+    # TIE Game
+    if opponent_score == player_score:
+        print("TIE GAME!!!!")
+ 
+    # Player Wins
+    elif player_score > opponent_score:
+        print("PLAYER WINS!!!")
+                    
+    # Opponent Wins
+    else:
+        print("OPPONENT WINS!!!")          
+ 
+if __name__ == '__main__':
+ 
+    # The type of card
+    cards = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+ 
+    # The card value
+    cards_values = {"A": 11, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "J":10, "Q":10, "K":10}
+ 
+    # The deck of cards
+    deck = []
+ 
+    # Loop for every type of card in a suit
+    for card in cards:
+ 
+        # Adding card to the deck
+        deck.append(Card(card, cards_values[card]))
+     
+    blackjack_game(deck)
